@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .search {
+            width: 100%;
+            padding: 15px;
+            font-size: 24px;
+            margin-bottom: 15px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .riky {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            flex: 1;
+            padding:10px;
+            font-size: 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #e0e0e0;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #d5d5d5;
+        }
+
+        .clear-button {
+            background-color: #ff5252;
+            color: white;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .clear-button:hover {
+            background-color: #e04848;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <input class="search" type="text" placeholder="Enter" readonly>
+
+        <div class="riky">
+            <button onclick="rocky(event)">1</button>
+            <button onclick="rocky(event)">2</button>
+            <button onclick="rocky(event)">3</button>
+            <button onclick="rocky(event)">+</button>
+        </div>
+        <div class="riky">
+            <button onclick="rocky(event)">4</button>
+            <button onclick="rocky(event)">5</button>
+            <button onclick="rocky(event)">6</button>
+            <button onclick="rocky(event)">-</button>
+        </div>
+        <div class="riky">
+            <button onclick="rocky(event)">7</button>
+            <button onclick="rocky(event)">8</button>
+            <button onclick="rocky(event)">9</button>
+            <button onclick="rocky(event)">*</button>
+        </div>
+        <div class="riky">
+            <button onclick="rocky(event)">0</button>
+            <button onclick="rocky(event)">.</button>
+            <button onclick="rocky(event)">=</button>
+            <button onclick="rocky(event)">/</button>
+        </div>
+
+        <button onclick="rocky(event)" class="clear-button">clear</button>
+    </div>
+
+    <script>
+        function rocky(event) {
+            const input = document.querySelector('.search');
+            const value = event.target.innerText;
+
+            if (value === 'clear') {
+                input.value = '';
+            } else if (value === '=') {
+                input.value = evaluateExpression(input.value);
+            } else {
+                input.value += value;
+            }
+        }
+
+        function evaluateExpression(expr) {
+            try {
+                const tokens = expr.match(/(\d+(\.\d+)?|[\+\-\*\/])/g);
+                if (!tokens) return 'Error';
+
+                let result = Number(tokens[0]);
+
+                for (let i = 1; i < tokens.length; i += 2) {
+                    const op = tokens[i];
+                    const num = Number(tokens[i + 1]);
+                    if (isNaN(num)) return 'Error';
+
+                    switch (op) {
+                        case '+': result += num; break;
+                        case '-': result -= num; break;
+                        case '*': result *= num; break;
+                        case '/': result /= num; break;
+                        default: return 'Error';
+                    }
+                }
+
+                return result;
+            } catch {
+                return 'Error';
+            }
+        }
+    </script>
+
+</body>
+</html>
